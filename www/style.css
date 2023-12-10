@@ -1,0 +1,130 @@
+/* Hide scrollbar for Chrome, Safari and Opera */
+body::-webkit-scrollbar {
+    display: none;
+}
+  
+/* Hide scrollbar for IE, Edge and Firefox */
+body {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.cbCustom {
+    height: 26px;
+    width: 26px;
+}
+
+.pos_editor{
+    position:absolute;
+    left:0;
+    top:0;
+}
+
+.opacity_editor{
+    opacity: 0.3;
+}
+.opacity_editor_zero{
+    opacity: 0.5;
+}
+
+.indicator-bar{
+    position:absolute;
+}
+
+.indicator-bar-horizontal{
+    width:150px;
+    height:20px;
+}
+
+.indicator-bar-vertical{
+    width:20px;
+    height:150px;
+}
+
+.strip{
+    background-color:darkgrey;
+    position: absolute;
+}
+
+.strip-vertical{
+    height:2px;
+    width:10px;
+}
+
+.strip-horizontal{
+    width:2px;
+    height:10px;
+}
+
+.strip-center-v{
+    height:2px;
+    width:20px;
+    background-color:red;
+}
+
+.strip-center-h{
+    width:2px;
+    height:20px;
+    background-color:red;
+}
+
+
+#analog_container{
+    position:absolute;
+    width: 250px;
+    height: 250px;
+    left: 10px;
+    bottom: 10px;
+}
+
+#analog_area{
+    position:absolute;
+    background-color: #44ffffff;
+}
+
+.analog-line{
+    position:absolute;
+    background-color: black;
+}
+
+#analog_pointer{
+    background-color: #ffffff;
+    opacity: 0.3;
+    position:absolute;
+    width: 40px;
+    height: 40px;
+}
+
+.bg-black{
+    background-color:black;
+    color:darkcyan;
+    height: 70px;
+    overflow-x:hidden;
+    -ms-overflow-style: none;
+    scrollbar-width: none; 
+}
+
+.bg-black::-webkit-scrollbar {
+    display: none;
+}
+
+.log{
+    color:darkgray;
+    margin:0px;
+    padding: 0px;
+    font-size: 11px;
+    font-family: monospace;
+}
+
+.log-title{
+    margin: 0px;
+    position: absolute;
+    right: 0px;
+    color: black;
+    font-weight: bold;
+}
+
+video{
+    margin-left: 50px;
+    margin-right: 50px;
+}

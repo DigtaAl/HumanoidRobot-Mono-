@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="dist/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="dist/jquery.min.js"></script>
+    <script src="dist/popper.min.js"></script>
+    <script src="dist/bootstrap.min.js"></script>
+    <title>R2</title>
+</head>
+
+<body class="bg-dark">
+    <div class="container-fluid bg-dark text-white p-0 mb-2">
+        <div class="d-flex">
+            <div class="mr-auto m-0">
+                <h6 id="con_h1" class="px-2">connecting...</h6>
+            </div>
+            <div class="px-2 pt-1">
+                <h6 id="con_h1" class="px-2">Voltage: <span id="voltage_badge" class="badge badge-warning"></span></h6>
+            </div>
+        </div>
+        <div class="row px-3">
+            <button id="bt_torque_toggle" type="button" class="col mx-3 btn btn-warning btn-lg">
+                Torque: <span class="badge badge-dark">Off</span></button>
+            <button id="bt_walk_toggle" type="button" class="col mx-3 btn btn-warning btn-lg disabled">
+                Walking: <span class="badge badge-dark">Off</span></button>
+        </div>
+    </div>
+
+    <div id="log_container" class="bg-black pl-3 mb-2 border border-secondary">
+        <p class="ml-3 log-title bg-secondary px-3">logs</p>
+        
+    </div>
+
+    <div class="btn-group w-100 my-0" role="group" aria-label="Basic example">
+        <button id="bt_show_settings"
+            class="border-0 rounded-0 btn btn-secondary btn-block shadow-none btn-md py-2 m-0">Settings</button>
+        <button id="bt_show_manuctrl"
+            class="border rounded-0 btn btn-secondary btn-block shadow-none btn-md py-2 m-0 border-right-0 border-bottom-0 border-top-0 border-dark">Manual
+            Move</button>
+        <button id="bt_show_headctrl"
+            class="border rounded-0 btn btn-secondary btn-block shadow-none btn-md py-2 m-0 border-right-0 border-bottom-0 border-top-0 border-dark">Head
+            Control</button>
+        <button id="bt_show_pidmon"
+            class="border rounded-0 btn btn-secondary btn-block shadow-none btn-md py-2 m-0 border-right-0 border-bottom-0 border-top-0 border-dark">PID Monitor</button>
+        <button id="bt_vision_stream"
+            class="border rounded-0 btn btn-secondary btn-block shadow-none btn-md py-2 m-0 border-right-0 border-bottom-0 border-top-0 border-dark">Vision Stream</button>
+    </div>
+
+    <div class="container-fluid p-3 bg-dark text-white">
+
+        <div id="settings" class="collapse py-3 ">
+            <div class="row mx-3 w-auto">
+                <button id="bt_get_walk_params" type="button" class="col btn btn-primary btn-sm mx-2">Load
+                    Params</button>
+                <button id="bt_submit_settings" class="col btn btn-primary btn-sm mx-2">Save</button>
+            </div>
+            <div class="row mx-3 w-auto">
+                <button id="bt_load_offset" class="col btn btn-primary btn-sm mx-3">Load Offset</button>
+            </div>
+                
+            <table class="table table-sm table-striped table-dark w-auto my-4">
+                <th colspan="3">
+                    <h6>Init Pose</h6>
+                </th>
+                <tr>
+                    <td><label>init_x_offset</label></td>
+                    <td><input autofocus id="set_init_x_offset"  value="2" type="number"></td>
+                    <td><button class="submit_settings" onclick="onSubmit('set_init_x_offset')">submit</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label>init_y_offset</label></td>
+                    <td><input autofocus id="set_init_y_offset"  value="1" type="number"></td>
+                    <td><button class="submit_settings" onclick="onSubmit('set_init_y_offset')">submit</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label>init_z_offset</label></td>
+                    <td><input autofocus id="set_init_z_offset"  value="1" type="number"></td>
+                    <td><button class="submit_settings" onclick="onSubmit('set_init_z_offset')">submit</button>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td><label>init_roll_offset</label></td>
+                    <td><input autofocus id="set_init_roll_offset"  value="2" type="number"></td>
+                    <td><button class="submit_settings"
+                            onclick="onSubmit('set_init_roll_offset')">submit</button></td>
+                </tr>
+                <tr>
+                    <td><label>init_pitch_offset</label></td>
+                    <td><input autofocus id="set_init_pitch_offset"  value="1" type="number"></td>
+                    <td><button class="submit_settings"
+                            onclick="onSubmit('set_init_pitch_offset')">submit</button></td>
+                </tr>
+                <tr>
+                    <td><label>init_yaw_offset</label></td>
+                    <td><input autofocus id="set_init_yaw_offset"  value="1" type="number"></td>
+                    <td><button class="submit_settings" onclick="onSubmit('set_init_yaw_offset')">submit</button>
+                    </td>
+                </tr>
+            </table>
+
+            <table class="table table-sm table-striped table-dark w-auto my-4">
+                <th colspan="3">
+                    <h6>Time Params</h6>
+                </th>
+                <tr>
+                    <td><label>period_time</label></td>
+                    <td><input autofocus id="set_period_time"  value="2" type="number"></td>
+                    <td><button class="submit_settings" onclick="onSubmit('set_period_time')">submit</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label>dsp_ratio</label></td>
+                    <td><input autofocus id="set_dsp_ratio"  value="1" type="number"></td>
+                    <td><button class="submit_settings" onclick="onSubmit('set_dsp_ratio')">submit</button></td>
+                </tr>
+                <tr>
+                    <td><label>step_fb_ratio</label></td>
+                    <td><input autofocus id="set_step_fb_ratio"  value="1" type="number"></td>
+                    <td><button class="submit_settings" onclick="onSubmit('set_step_fb_ratio')">submit</button>
+                    </td>
+                </tr>
+            </table>
+
+            <table class="table table-sm table-striped table-dark w-auto my-4">
+                <th colspan="3">
+                    <h6>Walking Params</h6>
+                </th>
+                <tr>
+                    <td><label>x_move_amplitude</label></td>
+                    <td><input autofocus id="set_x_move_amplitude"  value="2" type="number"></td>
+                    <td><button class="submit_settings"
+                            onclick="onSubmit('set_x_move_amplitude')">submit</button></td>
+                </tr>
+                <tr>
+                    <td><label>y_move_amplitude</label></td>
+                    <td><input autofocus id="set_y_move_amplitude"  value="1" type="number"></td>
+                    <td><button class="submit_settings"
+                            onclick="onSubmit('set_y_move_amplitude')">submit</button></td>
+                </tr>
+                <tr>
+                    <td><label>z_move_amplitude</label></td>
+                    <td><input autofocus id="set_z_move_amplitude"  value="1" type="number"></td>
+                    <td><button class="submit_settings"
+                            onclick="onSubmit('set_z_move_amplitude')">submit</button></td>
+                </tr>
+                <tr>
+                    <td><label>angle_move_amplitude</label></td>
+                    <td><input autofocus id="set_angle_move_amplitude"  value="1" type="number"></td>
+                    <td><button class="submit_settings"
+                            onclick="onSubmit('set_angle_move_amplitude')">submit</button></td>
+                </tr>
+                <tr>
+                    <td><label>move_aim_on</label></td>
+                    <td><input class="cbCustom" autofocus id="set_move_aim_on"  checked type="checkbox"></td>
+                    <td><button class="submit_settings" onclick="onSubmitCB('set_move_aim_on')">submit</button>
+                    </td>
+                </tr>
+            </table>
+
+            <table class="table table-sm table-striped table-dark w-auto my-4">
+                <th colspan="3">
+                    <h6>Balance params</h6>
+                </th>
+                <tr>
+                    <td><label>balance_enable</label></td>
+                    <td><input class="cbCustom" autofocus id="set_balance_enable"  checked
+                            type="checkbox"></td>
+                    <td><button class="submit_settings"
+                            onclick="onSubmitCB('set_balance_enable')">submit</button></td>
+                </tr>
+                <tr>
+                    <td><label>balance_hip_roll_gain</label></td>
+                    <td><input autofocus id="set_balance_hip_roll_gain"  value="1" type="number"></td>
+                    <td><button class="submit_settings"
+                            onclick="onSubmit('set_balance_hip_roll_gain')">submit</button></td>
+                </tr>
+                <tr>
+                    <td><label>balance_knee_gain</label></td>
+                    <td><input autofocus id="set_balance_knee_gain"  value="1" type="number"></td>
+                    <td><button class="submit_settings"
+                            onclick="onSubmit('set_balance_knee_gain')">submit</button></td>
+                </tr>
+                <tr>
+                    <td><label>balance_ankle_roll_gain</label></td>
+                    <td><input autofocus id="set_balance_ankle_roll_gain"  value="1" type="number"></td>
+                    <td><button class="submit_settings"
+                            onclick="onSubmit('set_balance_ankle_roll_gain')">submit</button></td>
+                </tr>
+                <tr>
+                    <td><label>balance_ankle_pitch_gain</label></td>
+                    <td><input autofocus id="set_balance_ankle_pitch_gain"  value="1" type="number"></td>
+                    <td><button class="submit_settings"
+                            onclick="onSubmit('set_balance_ankle_pitch_gain')">submit</button></td>
+                </tr>
+                <tr>
+                    <td><label>y_swap_amplitude</label></td>
+                    <td><input autofocus id="set_y_swap_amplitude"  value="1" type="number"></td>
+                    <td><button class="submit_settings"
+                            onclick="onSubmit('set_y_swap_amplitude')">submit</button></td>
+                </tr>
+                <tr>
+                    <td><label>z_swap_amplitude</label></td>
+                    <td><input autofocus id="set_z_swap_amplitude"  value="1" type="number"></td>
+                    <td><button class="submit_settings"
+                            onclick="onSubmit('set_z_swap_amplitude')">submit</button></td>
+                </tr>
+                <tr>
+                    <td><label>arm_swing_gain</label></td>
+                    <td><input autofocus id="set_arm_swing_gain"  value="1" type="number"></td>
+                    <td><button class="submit_settings" onclick="onSubmit('set_arm_swing_gain')">submit</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label>pelvis_offset</label></td>
+                    <td><input autofocus id="set_pelvis_offset"  value="1" type="number"></td>
+                    <td><button class="submit_settings" onclick="onSubmit('set_pelvis_offset')">submit</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label>hip_pitch_offset</label></td>
+                    <td><input autofocus id="set_hip_pitch_offset"  value="1" type="number"></td>
+                    <td><button class="submit_settings"
+                            onclick="onSubmit('set_hip_pitch_offset')">submit</button></td>
+                </tr>
+            </table>
+
+            <table class="table table-sm table-striped table-dark w-auto my-4">
+                <th colspan="3">
+                    <h6>Gain Params</h6>
+                </th>
+                <tr>
+                    <td><label>p_gain</label></td>
+                    <td><input autofocus id="set_p_gain"  value="2" type="number"></td>
+                    <td><button class="submit_settings" onclick="onSubmit('set_p_gain')">submit</button></td>
+                </tr>
+                <tr>
+                    <td><label>i_gain</label></td>
+                    <td><input autofocus id="set_i_gain"  value="1" type="number"></td>
+                    <td><button class="submit_settings" onclick="onSubmit('set_i_gain')">submit</button></td>
+                </tr>
+                <tr>
+                    <td><label>d_gain</label></td>
+                    <td><input autofocus id="set_d_gain"  value="1" type="number"></td>
+                    <td><button class="submit_settings" onclick="onSubmit('set_d_gain')">submit</button></td>
+                </tr>
+            </table>
+        </div>
+
+        <div id="manual_ctrl" class="collapse py-3">
+
+            <div class="btn-toolbar mb-3" role="toolbar" aria-label="Toolbar with button groups">
+                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                    <button type="button" class="btn btn-secondary" data-toggle="collapse" data-target="#setting_manual"
+                        aria-expanded="false">Settings</button>
+                    <div class="btn-group border-left border-dark" role="group">
+                        <button id="dropdown_control_mode_parent" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Off
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <button id="dropdown_control_mode_off" class="dropdown-item">Off</button>
+                            <button id="dropdown_control_mode_offset" class="dropdown-item">Set Stationary</button>
+                            <button id="dropdown_control_mode_control" class="dropdown-item">Auto Centering</button>
+                        </div>
+                    </div>
+                    <div class="btn-group border-left border-dark" role="group">
+                        <button id="dropdown_turn_mode_parent" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Yaw Mode
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a id="dropdown_turn_mode_yaw" class="dropdown-item" href="#">Yaw Mode</a>
+                            <a id="dropdown_turn_mode_headless" class="dropdown-item" href="#">Headless</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="setting_manual" class="collapse py-3">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text bg-secondary text-light" id="inputGroup-sizing-default">Turn
+                            Speed</span>
+                    </div>
+                    <input id="set_walking_turnspeed" type="text" class="form-control bg-dark text-light walking-conf" aria-label="Default"
+                        aria-describedby="inputGroup-sizing-default">
+                    <div class="input-group-append">
+                        <button onclick='onSubmitWalking("set_walking_turnspeed")' class="btn btn-outline-light walking-conf" type="button">Submit</button>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text bg-secondary text-light"
+                            id="inputGroup-sizing-default">Accel</span>
+                    </div>
+                    <input id="set_walking_Accel" type="text" class="form-control bg-dark text-light walking-conf" aria-label="Default"
+                        aria-describedby="inputGroup-sizing-default">
+                    <div class="input-group-append">
+                        <button onclick='onSubmitWalking("set_walking_Accel")' class="btn btn-outline-light walking-conf" type="button">Submit</button>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text bg-secondary text-light" id="inputGroup-sizing-default">Max
+                            Speed</span>
+                    </div>
+                    <input id="set_walking_multipler" type="text" class="form-control bg-dark text-light walking-conf" aria-label="Default"
+                        aria-describedby="inputGroup-sizing-default">
+                    <div class="input-group-append">
+                        <button onclick='onSubmitWalking("set_walking_multipler")' class="btn btn-outline-light walking-conf" type="button">Submit</button>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text bg-secondary text-light" id="inputGroup-sizing-default">Max Turn Rate</span>
+                    </div>
+                    <input id="set_walking_turnrate" type="text" class="form-control bg-dark text-light walking-conf" aria-label="Default"
+                        aria-describedby="inputGroup-sizing-default">
+                    <div class="input-group-append">
+                        <button onclick='onSubmitWalking("set_walking_turnrate")' class="btn btn-outline-light walking-conf" type="button">Submit</button>
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="setting_walking_offset" class="collapse py-3">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text bg-secondary text-light"
+                            id="inputGroup-sizing-default">X Walk offset</span>
+                    </div>
+                    <input id="set_walking_offset_x" type="text" class="form-control bg-dark text-light walking-conf" aria-label="Default"
+                        aria-describedby="inputGroup-sizing-default">
+                    <div class="input-group-append">
+                        <button onclick='onSubmitWalking("set_walking_offset_x")' class="btn btn-outline-light walking-conf" type="button">Submit</button>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text bg-secondary text-light" id="inputGroup-sizing-default">Y Walk offset</span>
+                    </div>
+                    <input id="set_walking_offset_y" type="text" class="form-control bg-dark text-light walking-conf" aria-label="Default"
+                        aria-describedby="inputGroup-sizing-default">
+                    <div class="input-group-append">
+                        <button onclick='onSubmitWalking("set_walking_offset_y")' class="btn btn-outline-light walking-conf" type="button">Submit</button>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text bg-secondary text-light" id="inputGroup-sizing-default">Z Walk offset</span>
+                    </div>
+                    <input id="set_walking_offset_yaw" type="text" class="form-control bg-dark text-light walking-conf" aria-label="Default"
+                        aria-describedby="inputGroup-sizing-default">
+                    <div class="input-group-append">
+                        <button onclick='onSubmitWalking("set_walking_offset_yaw")' class="btn btn-outline-light walking-conf" type="button">Submit</button>
+                    </div>
+                </div>
+                <button id="bt_send_stationary" type="button" class="col btn btn-primary btn-sm mx-2">
+                    Save Offset</button>
+            </div>
+
+            <div id="analog_container">
+                <div id="analog_area" class="bg-secondary rounded" onmouseenter="mouseEnterAnalog()"
+                    onmouseleave="mouseLeaveAnalog()">
+                    <div id="h_bar" class="border border-light indicator-bar indicator-bar-vertical">
+                        <div class="strip strip-vertical"></div>
+                        <div class="strip strip-vertical"></div>
+                        <div class="strip strip-vertical"></div>
+                        <div class="strip strip-vertical"></div>
+                        <div class="strip strip-vertical"></div>
+                        <div class="strip strip-vertical"></div>
+                        <div class="strip strip-vertical"></div>
+                        <div class="strip strip-vertical"></div>
+                        <div class="strip strip-center-v"></div>
+                    </div>
+                    <div id="v_bar" class="border border-light indicator-bar indicator-bar-horizontal">
+                        <div class="strip strip-horizontal"></div>
+                        <div class="strip strip-horizontal"></div>
+                        <div class="strip strip-horizontal"></div>
+                        <div class="strip strip-horizontal"></div>
+                        <div class="strip strip-horizontal"></div>
+                        <div class="strip strip-horizontal"></div>
+                        <div class="strip strip-horizontal"></div>
+                        <div class="strip strip-horizontal"></div>
+                        <div class="strip strip-center-h"></div>
+                    </div>
+
+                    <div id="pointer_h_bar" class="pos_editor m-0 p-0" style="height: 18px; width: 18px"><img
+                            src="pointerAnalogH.png" /></div>
+                    <div id="pointer_v_bar" class="pos_editor m-0 p-0" style="height: 18px; width: 18px"><img
+                            src="pointerAnalog.png" /></div>
+                    <div id="pointer_tar_h_bar" class="pos_editor m-0 p-0" style="height: 18px; width: 18px"><img
+                            src="pointerAnalogTarH.png" /></div>
+                    <div id="pointer_tar_v_bar" class="pos_editor m-0 p-0" style="height: 18px; width: 18px"><img
+                            src="pointerAnalogTar.png" /></div>
+
+                    <div id="analog_pointer" class="rounded-circle"></div>
+                    <div id="analog_line_h" class="analog-line"></div>
+                    <div id="analog_line_v" class="analog-line"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="head_ctrl" class="collapse py-3">
+            
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text bg-secondary text-light" id="inputGroup-sizing-default">Yaw</span>
+                </div>
+                <input id="head_yaw" type="number" class="form-control bg-dark text-light" aria-label="Default" value="0.0"
+                    aria-describedby="inputGroup-sizing-default">
+                <div class="input-group-append">
+                    <button onclick='onSubmitHead("head_yaw")' class="btn btn-outline-light" type="button">Submit</button>
+                </div>
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text bg-secondary text-light" id="inputGroup-sizing-default">Pitch</span>
+                </div>
+                <input id="head_pitch" type="number" class="form-control bg-dark text-light" aria-label="Default" value="0.0"
+                    aria-describedby="inputGroup-sizing-default">
+                <div class="input-group-append">
+                    <button onclick='onSubmitHead("head_pitch")' class="btn btn-outline-light" type="button">Submit</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="pid_mon" class="collapse py-3">
+            <canvas id="pid_mon_graph" width="200" height="100" style="border:1px solid #000000;">
+            </canvas>
+            
+        </div>
+
+        <div id="vision_stream" class="collapse py-3">
+            <div class="row">
+                <button id="start_vision" onclick="startVision()" type="button" 
+                                class="btn btn-success btn-md">Start</button>
+                <button id="enable_ball_track_btn" onclick="sendCmd('enable_ball_track');" type="button"
+                                class="btn btn-success btn-md">enable_ball_track</button>
+                <button id="disable_ball_track_btn"onclick="sendCmd('disable_ball_track');" type="button"
+                                class="btn btn-success btn-md">disable_ball_track</button>
+                <button id="reload_ball_tracker_params" onclick="reloadBallTrackerParams()" type="button"
+                                class="btn btn-success btn-md">Reload ball tracker params</button>
+                <button id="load_walking_conf" onclick="load_walking_conf()" type="button"
+                                class="btn btn-success btn-md">Load Walking Conf</button>
+                <button id="shoot_trigger" onclick="sendCmd('shoot_trigger');" type="button"
+                                class="btn btn-success btn-md">shoot trigger</button>
+                <button id="set_compe" onclick="sendCmd('set_compe');" type="button"
+                                class="btn btn-success btn-md">set_compe</button>
+            </div>
+            <div class="row">
+                <div style="background-color: blue;">
+                    <video id="video" style="width: 500px" autoplay="true" playsinline="true"></video>
+                </div>
+                <canvas id="goal_detection" width="300" style="border:1px solid #000000;"></canvas>
+                <canvas id="yaw_direction" width="300" style="border:1px solid #000000;"></canvas>
+            </div>
+            <div class="row">
+                <canvas id="field" width="620" style="border:2px solid #800990;"></canvas>
+                <img id="field_img" width="600" height="400" src="field.png" alt="The Scream">
+            </div>
+        </div>
+    </div>
+
+
+
+    <div id="indicator_editor" class="border border-dark bg-info rounded pos_editor opacity_editor"
+        style="height: 100px; width: 20px"></div>
+    <div id="indicator_zero_editor" class="opacity_editor_zero border border-dark bg-dark pos_editor"
+        style="height: 20px; width: 20px"></div>
+    <div id="pointer_editor" class="pos_editor m-0 p-0" style="height: 40px; width: 40px"><img
+            src="pointerEditor.png" /></div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="modalMaster" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="modalBody">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button id="inputModal1" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button id="inputModal2" type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="alert_success" class="alert bg-success text-light py-1 mx-3 fixed-bottom" role="alert">
+        This is a success alert—check it out!
+    </div>
+    <div id="alert_danger" class="alert bg-danger text-light py-1 mx-3 fixed-bottom" role="alert">
+        This is a danger alert—check it out!
+    </div>
+    <div id="alert_warning" class="alert bg-warning text-light py-1 mx-3 fixed-bottom" role="alert">
+        This is a warning alert—check it out!
+    </div>
+    <div id="alert_info" class="alert bg-info text-light py-1 mx-3 fixed-bottom" role="alert">
+        This is a info alert—check it out!
+    </div>
+
+    <!-- <script type="text/javascript" src="editor.js"></script> -->
+    <script type="text/javascript" src="analog.js"></script>
+    <script type="text/javascript" src="keyboard.js"></script>
+    <script type="text/javascript" src="pidmonitor.js"></script>
+    <script type="text/javascript" src="goaldetection.js"></script>
+    <script type="text/javascript" src="field_pos.js"></script>
+    <script type="text/javascript" src="main.js"></script>
+</body>
+
+</html>

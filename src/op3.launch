@@ -1,0 +1,5 @@
+<?xml version="1.0" ?>
+<launch> 
+    <node pkg="op3_manager" type="op3_manager" name="op3_manageracm_noarm"/>
+    <node pkg="pycontroller" type="main.py" name="controllerpy"/>
+</launch>

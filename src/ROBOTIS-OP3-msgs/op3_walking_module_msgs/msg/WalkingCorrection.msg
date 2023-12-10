@@ -1,0 +1,7 @@
+float64 wb_p_gain
+float64 wb_i_gain
+float64 wb_d_gain
+
+float64 zero_pitch_offset
+float64 pitch_offset_multiplier
+float64 x_offset_multiplier
